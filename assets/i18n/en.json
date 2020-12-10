@@ -1,0 +1,8 @@
+{
+  "register": "Register",
+  "login": "Login",
+  "create_account": "Create account",
+  "username": "Username",
+  "password": "Password",
+  "email": "Email"
+}
