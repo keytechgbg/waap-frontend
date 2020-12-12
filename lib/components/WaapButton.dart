@@ -31,7 +31,7 @@ class WaapButton extends StatelessWidget {
       decoration: BoxDecoration(color: STYLES.palette["border"],
            borderRadius: _TYPE2[type]),
       child : GestureDetector(
-        child: Container( padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+        child: Container( padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
           decoration: BoxDecoration(color: STYLES.palette["primary"],
               borderRadius: _TYPE2[type]),
           child: child,

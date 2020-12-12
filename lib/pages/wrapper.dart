@@ -19,13 +19,8 @@ class Wrapper extends StatelessWidget {
           page = ErrorPage();
         else
           page = LoadingPage();
-        return Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 0,
-            backgroundColor: Color(0xFF4C540B),
-          ),
-          body: page,
-        );
+        return
+          page;
       },
     );
 

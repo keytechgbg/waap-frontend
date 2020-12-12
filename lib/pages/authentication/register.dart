@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:waap/STYLES.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:waap/components/WaapButton.dart';
+import 'package:waap/services/api.dart';
+import 'package:waap/services/shared.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -9,13 +11,53 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  String username;
+  String username = "", uerror = null;
 
-  String password;
+  String password = "", perror = null;
+
+  String email = "", eerror = null;
+
+  String error = "";
+
+  BuildContext mycontext;
+
   final _formKey = GlobalKey<FormState>();
+
+  validate() async {
+    Map data = await API.register(
+        username: username, password: password, email: email);
+
+    if (data.containsKey("token")) {
+      Shared.logIn(username: username, token: "Token " + data["token"]);
+      Navigator.pushNamedAndRemoveUntil(mycontext, "/", (Route route) => false);
+      return;
+    }
+
+    if (data.containsKey("username")) {
+      uerror = data["username"].join();
+    } else
+      uerror = null;
+    if (data.containsKey("password")) {
+      perror = data["password"].join();
+    } else
+      perror = null;
+    if (data.containsKey("email")) {
+      eerror = data["email"].join();
+    } else
+      eerror = null;
+    if (data.containsKey("non_field_errors")) {
+      error = data["non_field_errors"];
+    } else {
+      error = "";
+    }
+    _formKey.currentState.validate();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    mycontext = mycontext ?? context;
+
     var H = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom;
@@ -26,15 +68,12 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: Color(0xFF4C540B),
+        backgroundColor: STYLES.palette["background"],
       ),
       body: SafeArea(
           child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
         child: Container(
-          color: STYLES.palette["background"],
           width: W,
-          height: H,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -70,6 +109,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         children: [
                           TextFormField(
+                            onChanged: (String s) {
+                              username = s;
+                            },
+                            initialValue: username,
+                            validator: (_) {
+                              return (_ == "")
+                                  ? "username_field_is_required".tr()
+                                  : uerror;
+                            },
                             decoration: STYLES.loginFormText
                                 .copyWith(labelText: "username".tr()),
                           ),
@@ -77,6 +125,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             height: 50,
                           ),
                           TextFormField(
+                              onChanged: (String s) {
+                                password = s;
+                              },
+                              initialValue: password,
+                              validator: (_) {
+                                return (_ == "")
+                                    ? "password_field_is_required".tr()
+                                    : perror;
+                              },
                               decoration: STYLES.loginFormText
                                   .copyWith(labelText: "password".tr()),
                               obscureText: true,
@@ -85,25 +142,40 @@ class _RegisterPageState extends State<RegisterPage> {
                             height: 50,
                           ),
                           TextFormField(
+                            onChanged: (String s) {
+                              email = s;
+                            },
+                            initialValue: email,
+                            validator: (_) {
+                              return (_ == "")
+                                  ? "email_field_is_required".tr()
+                                  : eerror;
+                            },
                             decoration: STYLES.loginFormText
                                 .copyWith(labelText: "email".tr()),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 50),
+                      child: Center(
+                        child: Text(
+                          error,
+                          style: STYLES.text["error"],
+                        ),
+                      ),
                     ),
                     RaisedButton(
                       child: Text(
-                        "login".tr(),
+                        "create_account".tr(),
                         style: STYLES.text["button1"],
                       ),
-                      onPressed: () {},
+                      onPressed: validate,
                     )
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

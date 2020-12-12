@@ -18,7 +18,13 @@ class Authentificator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: STYLES.palette["background"],
+      ),
+      body: SafeArea(
         child: Container(
       decoration: BoxDecoration(
         color: STYLES.palette["background"],
@@ -31,7 +37,7 @@ class Authentificator extends StatelessWidget {
         alignment: Alignment(1, 0.5),
         child: Container(
           child: TweenAnimationBuilder(
-            duration: Duration(milliseconds: 750),
+            duration: Duration(milliseconds: 1500),
             curve: Curves.bounceOut,
             tween: Tween<double>(begin: _align, end: 1),
             onEnd: (){_align=1;},
@@ -62,6 +68,6 @@ class Authentificator extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    )));
   }
 }

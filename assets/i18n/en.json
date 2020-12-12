@@ -1,8 +1,26 @@
 {
+  "waap": "WAAP",
   "register": "Register",
   "login": "Login",
   "create_account": "Create account",
   "username": "Username",
   "password": "Password",
-  "email": "Email"
+  "email": "Email",
+  "finished_games": "Finished games",
+  "password_field_is_required": "Password field is required!",
+  "username_field_is_required": "Username field is required!",
+  "email_field_is_required": "Email field is required!",
+  "network_connection_error": "Network connection error",
+  "challenges": "challenges",
+  "players": "Players",
+  "challenge": "Challenge",
+  "time_left": "Time left",
+  "highest_rate_on_pic": "Highest rate on picture",
+  "games_won": "Games won" ,
+  "games_lost": "Games lost",
+  "games_tied": "Games tied",
+  "games_resigned": "Games resigned",
+  "statistics": "Statistics",
+  "settings": "Settings",
+  "log_out": "Log out"
 }
