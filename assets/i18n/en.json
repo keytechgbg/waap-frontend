@@ -22,5 +22,13 @@
   "games_resigned": "Games resigned",
   "statistics": "Statistics",
   "settings": "Settings",
-  "log_out": "Log out"
+  "log_out": "Log out",
+  "game_options": "Game options",
+  "create_challenge": "Create challenge",
+  "nr_of_photographs": "Nr of photographs",
+  "waap_challenge": "WAAP challenge",
+  "game_time": "Game time",
+  "voting_time": "Voting time",
+  "reward": "Reward",
+  "set": "Set"
 }

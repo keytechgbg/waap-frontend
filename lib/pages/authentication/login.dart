@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waap/STYLES.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:waap/services/api.dart';
 import 'package:waap/services/shared.dart';
@@ -56,101 +57,101 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: STYLES.palette["background"],
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Container(
-          width: W,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                  padding: STYLES.buttonTopPadding,
-                  alignment: Alignment.bottomLeft,
-                  child: WaapButton(
-                    Icon(Icons.arrow_back),
-                    type: WaapButton.RIGHT,
-                    callback: () {
-                      Navigator.pop(context);
-                    },
-                  )),
-              SizedBox(
-                height: 60,
-              ),
-              Container(
-                width: W,
-                padding:
-                    EdgeInsets.only(top: 50, right: 30, left: 30, bottom: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.symmetric(
-                        horizontal: BorderSide(
-                      width: 5,
-                      color: STYLES.palette["primary"],
-                    ))),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            onChanged: (String s) {
-                              username = s;
-                            },
-                            initialValue: username,
-                            validator: (_) {
-                              return (_ == "")
-                                  ? "username_field_is_required".tr()
-                                  : null;
-                            },
-                            decoration: STYLES.loginFormText
-                                .copyWith(labelText: "username".tr()),
+          child: SafeScroll(
+            child: Container(
+              width: W,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                      padding: STYLES.buttonTopPadding,
+                      alignment: Alignment.bottomLeft,
+                      child: WaapButton(
+                        Icon(Icons.arrow_back),
+                        type: WaapButton.RIGHT,
+                        callback: () {
+                          Navigator.pop(context);
+                        },
+                      )),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  Container(
+                    width: W,
+                    padding:
+                        EdgeInsets.only(top: 50, right: 30, left: 30, bottom: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.symmetric(
+                            horizontal: BorderSide(
+                          width: 5,
+                          color: STYLES.palette["primary"],
+                        ))),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                onChanged: (String s) {
+                                  username = s;
+                                },
+                                initialValue: username,
+                                validator: (_) {
+                                  return (_ == "")
+                                      ? "username_field_is_required".tr()
+                                      : null;
+                                },
+                                decoration: STYLES.loginFormText
+                                    .copyWith(labelText: "username".tr()),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              TextFormField(
+                                onChanged: (String s) {
+                                  password = s;
+                                },
+                                initialValue: password,
+                                validator: (_) {
+                                  return (_ == "")
+                                      ? "password_field_is_required".tr()
+                                      : null;
+                                },
+                                decoration: STYLES.loginFormText.copyWith(
+                                  labelText: "password".tr(),
+                                ),
+                                obscureText: true,
+                                obscuringCharacter: "●",
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          TextFormField(
-                            onChanged: (String s) {
-                              password = s;
-                            },
-                            initialValue: password,
-                            validator: (_) {
-                              return (_ == "")
-                                  ? "password_field_is_required".tr()
-                                  : null;
-                            },
-                            decoration: STYLES.loginFormText.copyWith(
-                              labelText: "password".tr(),
-                            ),
-                            obscureText: true,
-                            obscuringCharacter: "●",
-                          )
-                        ],
-                      ),
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: 50),
-                      child: Center(
-                        child: Text(
-                          error,
-                          style: STYLES.text["error"],
                         ),
-                      ),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: 50),
+                          child: Center(
+                            child: Text(
+                              error,
+                              style: STYLES.text["error"],
+                            ),
+                          ),
+                        ),
+                        RaisedButton(
+                          child: Text(
+                            "login".tr(),
+                            style: STYLES.text["button1"],
+                          ),
+                          onPressed: validate,
+                        )
+                      ],
                     ),
-                    RaisedButton(
-                      child: Text(
-                        "login".tr(),
-                        style: STYLES.text["button1"],
-                      ),
-                      onPressed: validate,
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      )),
+            ),
+          )),
     );
   }
 }

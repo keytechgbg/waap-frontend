@@ -8,3 +8,15 @@ class MyBehavior extends ScrollBehavior {
     return child;
   }
 }
+
+class SafeScroll extends StatelessWidget {
+  SafeScroll({this.child});
+  Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(
+      behavior: MyBehavior(),
+      child: SingleChildScrollView(child: child),
+    );
+  }
+}
