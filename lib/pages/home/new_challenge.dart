@@ -4,7 +4,7 @@ import 'package:waap/components/TimePicker.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:waap/components/SafeScroll.dart';
-import 'package:numberpicker/numberpicker.dart';
+import 'friends.dart';
 
 class NewChallengePage extends StatefulWidget {
   @override
@@ -12,13 +12,10 @@ class NewChallengePage extends StatefulWidget {
 }
 
 class _NewChallengePageState extends State<NewChallengePage> {
+
   final double borderSize = 3;
 
-  List<String> players = [
-    "john",
-    "Batman34",
-    "Bigjj",
-  ];
+  List<String> players = [];
 
   int image_count;
   Duration expire = Duration(minutes: 0), voting = Duration(minutes: 0);
@@ -130,7 +127,16 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                     [
                                       Container(
                                           margin: EdgeInsets.all(2),
-                                          child: Icon(Icons.person_add))
+                                          child: GestureDetector(
+                                            child: Icon(Icons.person_add),
+                                            onTap: () async{
+                                              players = await Navigator.push(
+                                                  context, MaterialPageRoute(builder: (context) => FriendsPage(players)));
+                                              setState(() {
+
+                                              });
+                                            },
+                                          ))
                                     ],
                               )),
                         ),
@@ -293,19 +299,19 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                       IconButton(
                                         padding: EdgeInsets.zero,
                                         icon: Icon(
-                                      Icons.access_time_outlined,
-                                      color: Colors.white,
-                                      size: 30,
+                                          Icons.access_time_outlined,
+                                          color: Colors.white,
+                                          size: 30,
                                         ),
                                         onPressed: () {
-                                      showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (context) =>
-                                              TimePickerDialog(
-                                                text: "game_time".tr(),
-                                                callback: setExpire,
-                                              ));
+                                          showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) =>
+                                                  TimePickerDialog(
+                                                    text: "game_time".tr(),
+                                                    callback: setExpire,
+                                                  ));
                                         },
                                       )
                                     ],
@@ -318,7 +324,7 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                   color: STYLES.palette["primary"],
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("voting_time".tr(),
                                           style: STYLES.text["optionTitle"]),
