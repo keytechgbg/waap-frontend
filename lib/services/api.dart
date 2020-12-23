@@ -11,6 +11,10 @@ class API {
   static const String _baseURL = "http://192.168.31.29:8080/api/";
   static var dio;
 
+  static close(){
+    _token=null;
+  }
+
   static _getToken() async {
     if (_token == null) _token = await Shared.getToken();
     return _token;
@@ -33,6 +37,7 @@ class API {
           .post("login/", data: {"username": username, "password": password});
     } catch (e) {
       try {
+        print(e);
         if (e.response.statusCode == 400) {
           data = e.response.data;
         } else
@@ -79,11 +84,12 @@ class API {
       response = await dio.get("friends/",
           options: Options(headers: {"Authorization": await _getToken()}));
     } catch (e) {
-      print(e);
-      if (e.response.statusCode == 400) {
-        return [];
-      } else
-        return null;
+      try{
+        if (e.response.statusCode == 400) {
+          return [];
+        } else
+          return null;
+      }catch(e){return null;}
     }
 
     data = response.data;
@@ -132,6 +138,21 @@ class API {
     return data;
   }
 
+  static updateFriend(String username, String status) async {
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio.put("friends/",
+          options: Options(headers: {"Authorization": await _getToken()}),
+          data: {"to_user": username, "status": status});
+    } catch (e) {
+      return{};
+    }
+    data = response.data;
+    return data;
+  }
+
   static deleteFriend(String username) async {
     var data;
     var response;
@@ -142,6 +163,47 @@ class API {
           data: {"to_user": username});
     } catch (e) {
       print(e);
+      if (e.response.statusCode == 400) {
+        data = e.response.data;
+      } else
+        data = {"non_field_errors": e};
+      return data;
+    }
+    data = response.data;
+    return data;
+  }
+
+  static getChallenges() async {
+    var data;
+    var response;
+    init();
+
+    try {
+      response = await dio.get("challenges/",
+          options: Options(headers: {"Authorization": await _getToken()}));
+    } catch (e) {
+      try{
+
+        if (e.response.statusCode == 400) {
+          return {};
+        } else
+          return null;
+      }catch(e){return null;}
+    }
+
+    data = response.data;
+    return data;
+  }
+
+  static addChallenge(String users, int image_count, int expire, int voting, String theme, String reward) async {
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio.post("challenges/",
+          options: Options(headers: {"Authorization": await _getToken()}),
+          data: {"users": users, "image_count": image_count, "expire": expire, "voting": voting , "theme": theme, "reward": reward});
+    } catch (e) {
       if (e.response.statusCode == 400) {
         data = e.response.data;
       } else

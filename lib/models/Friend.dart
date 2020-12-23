@@ -12,7 +12,11 @@ class Friend {
   static Map STATUSES = {
     "WAITING": WAITING,
     "ACCEPTED": ACCEPTED,
-    "REJECTED": REJECTED
+    "REJECTED": REJECTED,
+    WAITING: "WAITING",
+    ACCEPTED: "ACCEPTED",
+    REJECTED: "REJECTED",
+
   };
 
   Map<String, dynamic> toMap() {

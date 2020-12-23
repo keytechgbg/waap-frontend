@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
+import 'package:waap/models/Challenge.dart';
 import 'package:waap/models/Friend.dart';
 
 class DBHelper {
@@ -26,8 +27,9 @@ class DBHelper {
   _onCreate(Database db, int version) async {
     await db
       ..execute(
-          'CREATE TABLE friends (id INTEGER PRIMARY KEY, username TEXT UNIQUE, status INTEGER, from_user INTEGER)');
-    // ..execute('CREATE TABLE challenges (id INTEGER PRIMARY KEY, name TEXT, phone TEXT)');
+          'CREATE TABLE friends (id INTEGER PRIMARY KEY, username TEXT UNIQUE, status INTEGER, from_user INTEGER)')
+      ..execute(
+          'CREATE TABLE challenges (id INTEGER PRIMARY KEY, users TEXT, status INTEGER,  image_count INTEGER, expire INTEGER, voting INTEGER, theme TEXT, reward TEXT)');
   }
 
   Future<Friend> addFriend(Friend friend) async {
@@ -38,8 +40,8 @@ class DBHelper {
 
   Future<List<Friend>> getFriends() async {
     var dbClient = await db;
-    List<Map> maps =
-        await dbClient.query('friends', columns: ['id', 'username', 'status', 'from_user']);
+    List<Map> maps = await dbClient
+        .query('friends', columns: ['id', 'username', 'status', 'from_user']);
     List<Friend> friends = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -75,16 +77,14 @@ class DBHelper {
     }).toList();
 
     var dbClient = await db;
-    List<Map> maps =
-        await dbClient.query('friends', columns: ['id', 'username', 'status', 'from_user']);
+    List<Map> maps = await dbClient
+        .query('friends', columns: ['id', 'username', 'status', 'from_user']);
 
-    for(var i in maps){
-      if(! list.map((e) => e["username"]).contains(i["username"])){
+    for (var i in maps) {
+      if (!list.map((e) => e["username"]).contains(i["username"])) {
         await deleteFriend(i["id"]);
         maps.remove(i);
-
       }
-
     }
 
     check(Map item) {
@@ -113,6 +113,80 @@ class DBHelper {
     }
 
     return 1;
+  }
+
+  Future<List<Challenge>> getChallenges() async {
+    var dbClient = await db;
+    List<Map> maps = await dbClient
+        .query('challenges', columns: ['id' , 'users' , 'status' ,  'image_count' , 'expire' , 'voting' , 'theme' , 'reward']);
+    List<Challenge> challenges = [];
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        challenges.add(Challenge.fromMap(maps[i]));
+      }
+    }
+    return challenges;
+  }
+
+  Future<int> updateChallengesFromList(List list) async {
+    list = list.map((e) {
+      e["status"] = Challenge.STATUSES[e["status"]];
+      var expire=e["expire"].toInt();
+      e["expire"] = DateTime.now().add(Duration(seconds : expire)).millisecondsSinceEpoch;
+      e["voting"] = DateTime.now().add(Duration(seconds : e["voting"].toInt()+expire)).millisecondsSinceEpoch;
+      e["users"] = e["users"].join(" ");
+      return e;
+    }).toList();
+
+    var dbClient = await db;
+    List<Map> maps = await dbClient
+        .query('challenges', columns: ['id' , 'users' , 'status' ,  'image_count' , 'expire' , 'voting' , 'theme' , 'reward' ]);
+
+    for (var i in maps) {
+      if (!list.map((e) => e["id"]).contains(i["id"])) {
+        await dbClient.delete(
+          'challenges',
+          where: 'id = ?',
+          whereArgs: [i["id"]],
+        );
+        maps.remove(i);
+      }
+    }
+
+    check(Map item) {
+      for (var i in maps) {
+        if (i["id"] == item["id"]) {
+          return i;
+        }
+      }
+      return null;
+    }
+
+    for (var f in list) {
+      var c = check(f);
+      if (c != null) {
+          await dbClient.update(
+            'challenges',
+            f,
+            where: 'id = ?',
+            whereArgs: [c["id"]],
+          );
+      } else
+        dbClient.insert("challenges", f);
+    }
+
+    return 1;
+  }
+
+  Future clear() async{
+    var dbClient = await db;
+    await dbClient.transaction((txn) async {
+      var batch = txn.batch();
+      batch.delete("friends");
+      batch.delete("challenges");
+      await batch.commit();
+    });
+
   }
 
   Future close() async {

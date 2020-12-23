@@ -35,5 +35,7 @@
   "yes": "Yes",
   "no": "No",
   "remove_dialog": "Do you want to remove * from your friendlist?",
-  "friends": "Friends"
+  "friends": "Friends",
+  "date": "Date",
+  "friend_requests": " Friend requests"
 }

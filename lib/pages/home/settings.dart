@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:waap/services/api.dart';
 import 'package:waap/services/shared.dart';
+import 'package:waap/services/db.dart';
 
 class SettingsPage extends StatelessWidget {
   final double borderSize = 2;
@@ -104,6 +106,8 @@ class SettingsPage extends StatelessWidget {
 
                               ), onPressed: () {
                                 Shared.logOut();
+                                DBHelper().clear();
+                                API.close();
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, "/", (route) => false);
                               }

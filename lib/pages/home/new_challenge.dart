@@ -4,6 +4,7 @@ import 'package:waap/components/TimePicker.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:waap/components/SafeScroll.dart';
+import 'package:waap/services/api.dart';
 import 'friends.dart';
 
 class NewChallengePage extends StatefulWidget {
@@ -12,7 +13,6 @@ class NewChallengePage extends StatefulWidget {
 }
 
 class _NewChallengePageState extends State<NewChallengePage> {
-
   final double borderSize = 3;
 
   List<String> players = [];
@@ -79,7 +79,7 @@ class _NewChallengePageState extends State<NewChallengePage> {
                             Icon(Icons.arrow_back),
                             type: WaapButton.RIGHT,
                             callback: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             },
                           )),
                       Positioned.fill(
@@ -129,12 +129,14 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                           margin: EdgeInsets.all(2),
                                           child: GestureDetector(
                                             child: Icon(Icons.person_add),
-                                            onTap: () async{
+                                            onTap: () async {
                                               players = await Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => FriendsPage(players)));
-                                              setState(() {
-
-                                              });
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FriendsPage(
+                                                              players)));
+                                              setState(() {});
                                             },
                                           ))
                                     ],
@@ -396,8 +398,15 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                   style: STYLES.text["title"],
                                 ),
                                 onPressed: allFilledCheck()
-                                    ? () {
-                                        Navigator.pop(context);
+                                    ? () async {
+                                        await API.addChallenge(
+                                            players.join(" "),
+                                            image_count,
+                                            expire.inSeconds,
+                                            voting.inSeconds,
+                                            c_theme.text,
+                                            c_reward.text);
+                                        Navigator.pop(context, true);
                                       }
                                     : null,
                               )),

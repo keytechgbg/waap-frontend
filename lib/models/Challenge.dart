@@ -15,15 +15,15 @@ class Challenge {
   int image_count;
   DateTime expire, voting;
   int id;
-  String users;
+  List<String> users;
 
   static int STARTED = 1;
   static int VOTING = 2;
   static int FINISHED = 3;
   static Map STATUSES = {
-    STARTED: "STARTED",
-    VOTING: "VOTING",
-    FINISHED: "FINISHED"
+    "STARTED": STARTED,
+    "VOTING": VOTING,
+    "FINISHED": FINISHED
   };
 
   Map<String, dynamic> toMap() {
@@ -41,5 +41,17 @@ class Challenge {
       map['id'] = id;
     }
     return map;
+  }
+
+  Challenge.fromMap(Map<String, dynamic> map) {
+    print(map);
+    id = map["id"];
+    status = map["status"];
+    users = map["users"].split(" ");
+    expire = DateTime.fromMillisecondsSinceEpoch(map["expire"]);
+    voting = DateTime.fromMillisecondsSinceEpoch(map["voting"]);
+    image_count = map["image_count"];
+    theme = map["theme"];
+    reward = map["reward"];
   }
 }

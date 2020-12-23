@@ -33,7 +33,7 @@ class _FriendsPageState extends State<FriendsPage> {
     if (response is List) {
       await db.updateFriendsFromList(response);
     }
-    var flist = await db.getFriends();
+    var flist = await db.getFriends() ?? [];
     friends = flist
         .where((e) => e.status == Friend.ACCEPTED)
         .map((e) => e.username)
