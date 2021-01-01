@@ -30,6 +30,9 @@ dependencies:
   provider: ^4.3.2+3
   dio: ^3.0.10
   numberpicker: ^1.3.0
+  image_picker: ^0.6.7+17
+  flutter_pdfview: ^1.0.4
+  confetti: ^0.5.4+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,6 +57,7 @@ flutter:
   assets:
     - assets/i18n/
     - assets/images/
+    - assets/pdf/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -89,6 +93,10 @@ flutter:
     - family:  CustomIcons
       fonts:
         - asset: assets/fonts/CustomIcons.ttf
+
+    - family:  MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
 
   #   - family: Trajan Pro
   #     fonts:

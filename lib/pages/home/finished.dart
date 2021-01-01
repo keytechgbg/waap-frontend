@@ -4,6 +4,7 @@ import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:waap/models/Challenge.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:waap/pages/home/challenge_finished.dart';
 
 class FinishedPage extends StatelessWidget {
   List<Challenge> challenges;
@@ -93,49 +94,57 @@ class FinishedPage extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: borderSize),
                             child: Column(
                               children: challenges
-                                  .map((_) => Container(
+                                  .map((_) => GestureDetector(onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChallengeFinishedPage(_)));
+                              },
+
+                                    child: Container(
                                 margin: EdgeInsets.only(top: borderSize),
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 20), // line size
+                                      vertical: 20), // line size
                                 color: STYLES.palette["primary"],
                                 child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Flexible(
-                                      child: Container(
-                                        child: Center(
-                                          child: Text(
-                                            _.users.length.toString(),
-                                            style: STYLES.text["base"],
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Flexible(
+                                        child: Container(
+                                          child: Center(
+                                            child: Text(
+                                              _.users.length.toString(),
+                                              style: STYLES.text["base"],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      flex: 2,
-                                      child: Container(
-                                        child: Center(
-                                          child: Text(
-                                            _.theme,
-                                            style: STYLES.text["base"],
+                                      Flexible(
+                                        flex: 2,
+                                        child: Container(
+                                          child: Center(
+                                            child: Text(
+                                              _.theme,
+                                              style: STYLES.text["base"],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      child: Container(
-                                        child: Center(
-                                          child: Text(
-                                            properTime(_.expire),
-                                            style: STYLES.text["base"],
+                                      Flexible(
+                                        child: Container(
+                                          child: Center(
+                                            child: Text(
+                                              properTime(_.expire),
+                                              style: STYLES.text["base"],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
                                 ),
-                              ))
+                              ),
+                                  ))
                                   .toList(),
                               mainAxisSize: MainAxisSize.min,
                             ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/ChallengeListItem.dart';
@@ -35,11 +37,28 @@ class _MainPageState extends State<MainPage> {
 
   List<String> friendshipRequests;
 
-  List<Challenge> challenges;
+  List<Challenge> challenges = [];
 
   final double borderSize = 2;
 
-  updateChallengesAndFriends() async {
+  updateStatus(challenge) async {
+    var status = challenge.status;
+    if (status == Challenge.STARTED &&
+        challenge.expire.isBefore(DateTime.now())) {
+      status = Challenge.VOTING;
+    }
+    if (status == Challenge.VOTING &&
+        challenge.voting.isBefore(DateTime.now())) {
+      status = Challenge.FINISHED;
+    }
+    if (status != challenge.status) {
+      challenge.status = status;
+      await DBHelper().updateChallenge(challenge);
+    }
+    return 1;
+  }
+
+  Future<int> updateChallengesAndFriends() async {
     var db = DBHelper();
     var friends = await API.getFriends();
     if (friends is List) {
@@ -53,11 +72,44 @@ class _MainPageState extends State<MainPage> {
         .toList()
         .cast<String>();
 
-    var challengeList = await API.getChallenges() ?? {};
-    if (challengeList.containsKey("challenges")) {
-      await db.updateChallengesFromList(challengeList["challenges"]);
+    Map challengeList = await API.getChallenges() ?? {};
+    if (challengeList.isNotEmpty) {
+      if (challengeList.containsKey("challenges")) {
+        await db.updateChallengesFromList(challengeList["challenges"]);
+      } else
+        await db.updateChallengesFromList([]);
     }
     var clist = await db.getChallenges() ?? [];
+
+    if (challengeList.isEmpty) {
+      for (var i = 0; i < clist.length; i++) {
+        if (clist[i].status == Challenge.FINISHED) continue;
+        await updateStatus(clist[i]);
+      }
+    }
+
+    if (clist.length > 1) {
+      clist.sort((a, b) {
+        var res;
+        if (a.status > b.status)
+          res = -1;
+        else if (a.status < b.status)
+          res = 1;
+        else if (a.status == Challenge.STARTED ||
+            a.status == Challenge.FINISHED) {
+          if (a.expire.isBefore(b.expire))
+            res = -1;
+          else
+            res = 1;
+        } else if (a.status == Challenge.VOTING) {
+          if (a.voting.isBefore(b.voting))
+            res = -1;
+          else
+            res = 1;
+        }
+        return res;
+      });
+    }
     challenges = clist;
     return 1;
   }
@@ -157,6 +209,7 @@ class _MainPageState extends State<MainPage> {
                       future: updateChallengesAndFriends(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          print(snapshot.data);
                           return Container(
                             child: Column(
                               children: [
@@ -167,9 +220,9 @@ class _MainPageState extends State<MainPage> {
                                     children: challenges
                                         .where((e) =>
                                             e.status != Challenge.FINISHED)
-                                        .map((_) => ChallengeListItem(_, (){setState(() {
-
-                                        });}))
+                                        .map((_) => ChallengeListItem(_, () {
+                                              setState(() {});
+                                            }))
                                         .toList(),
                                     mainAxisSize: MainAxisSize.min,
                                   ),
@@ -249,8 +302,7 @@ class _MainPageState extends State<MainPage> {
 
                                                                         if (res
                                                                             is List)
-                                                                          setState(
-                                                                              () {});
+                                                                          setState(() {});
                                                                       }),
                                                                   IconButton(
                                                                       icon: Icon(Icons
@@ -267,8 +319,7 @@ class _MainPageState extends State<MainPage> {
                                                                             Friend.STATUSES[Friend.ACCEPTED]);
                                                                         if (res
                                                                             is List)
-                                                                          setState(
-                                                                              () {});
+                                                                          setState(() {});
                                                                       })
                                                                 ],
                                                               ))

@@ -21,5 +21,12 @@ class CustomIcons {
   static const _kFontFam = 'CustomIcons';
   static const _kFontPkg = null;
 
+  static const _lFontFam = 'MyFlutterApp';
+  static const _lFontPkg = null;
+
   static const IconData hq = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+
+  static const IconData heart = IconData(0xe800, fontFamily: _lFontFam, fontPackage: _lFontPkg);
+  static const IconData heart_empty = IconData(0xe801, fontFamily: _lFontFam, fontPackage: _lFontPkg);
+
 }

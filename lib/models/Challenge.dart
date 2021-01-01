@@ -17,9 +17,12 @@ class Challenge {
   int id;
   List<String> users;
 
-  static int STARTED = 1;
-  static int VOTING = 2;
-  static int FINISHED = 3;
+
+  String winners;
+
+  static const int STARTED = 1;
+  static const int VOTING = 2;
+  static const int FINISHED = 3;
   static Map STATUSES = {
     "STARTED": STARTED,
     "VOTING": VOTING,
@@ -31,10 +34,11 @@ class Challenge {
       'theme': theme,
       'reward': reward,
       'image_count': image_count,
-      'users': users,
-      'expire': expire.toString(),
-      'voting': voting.toString(),
-      'status': status
+      'users': users.join(" "),
+      'expire': expire.millisecondsSinceEpoch,
+      'voting': voting.millisecondsSinceEpoch,
+      'status': status,
+      'winners': winners
     };
 
     if (id != null) {
@@ -44,7 +48,6 @@ class Challenge {
   }
 
   Challenge.fromMap(Map<String, dynamic> map) {
-    print(map);
     id = map["id"];
     status = map["status"];
     users = map["users"].split(" ");
@@ -53,5 +56,7 @@ class Challenge {
     image_count = map["image_count"];
     theme = map["theme"];
     reward = map["reward"];
+    winners= map["winners"];
+
   }
 }

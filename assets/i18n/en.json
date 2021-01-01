@@ -37,5 +37,19 @@
   "remove_dialog": "Do you want to remove * from your friendlist?",
   "friends": "Friends",
   "date": "Date",
-  "friend_requests": " Friend requests"
+  "friend_requests": " Friend requests",
+  "game": "Game",
+  "send": "Send",
+  "press_to_take": "Press to take picture",
+  "privacy_policy": "Privacy policy",
+  "terms_of_use": "Terms of use",
+  "support": "Support",
+  "profile": "Profile",
+  "game_help": "Game help",
+  "send_proposal": "Send a WAAP Challenge proposal",
+  "report_problem": "Report a problem",
+  "voting_ends_in": "Voting ends in : ",
+  "congratulations": "Congratulations!!!"
+
+
 }

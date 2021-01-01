@@ -55,6 +55,8 @@ class _NewChallengePageState extends State<NewChallengePage> {
     });
   }
 
+  bool waiting = false;
+
   @override
   Widget build(BuildContext context) {
     var W = MediaQuery.of(context).size.width -
@@ -399,14 +401,25 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                 ),
                                 onPressed: allFilledCheck()
                                     ? () async {
-                                        await API.addChallenge(
-                                            players.join(" "),
-                                            image_count,
-                                            expire.inSeconds,
-                                            voting.inSeconds,
-                                            c_theme.text,
-                                            c_reward.text);
-                                        Navigator.pop(context, true);
+                                        if (!waiting) {
+                                          waiting = true;
+
+                                          try{
+                                            print("start");
+                                            await API.addChallenge(
+                                                players.join(" "),
+                                                image_count,
+                                                expire.inSeconds,
+                                                voting.inSeconds,
+                                                c_theme.text,
+                                                c_reward.text);
+                                          }catch(e){
+                                            print("error");
+                                            waiting=false;
+                                            return;
+                                          }
+                                          Navigator.pop(context, true);
+                                        }
                                       }
                                     : null,
                               )),

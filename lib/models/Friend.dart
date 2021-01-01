@@ -29,7 +29,6 @@ class Friend {
   }
 
   Friend.fromMap(Map<String, dynamic> map) {
-    print(map);
     id = map["id"];
     status = map["status"];
     username = map["username"];
