@@ -5,7 +5,6 @@ import 'package:waap/STYLES.dart';
 import 'package:waap/components/FriendSearchItem.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/services/api.dart';
 
 class FriendSearchPage extends StatelessWidget {
@@ -17,7 +16,7 @@ class FriendSearchPage extends StatelessWidget {
 
   List<String> requests;
 
-  FriendSearchPage(this.requests);
+  FriendSearchPage(this.requests){}
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +99,7 @@ class FriendSearchPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.active) {
                       if (snapshot.hasData) {
+                        print(snapshot.data);
                         if (!snapshot.data.keys.contains("non_field_errors")) {
                           return Container(
                             height: double.infinity,

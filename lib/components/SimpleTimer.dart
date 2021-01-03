@@ -43,7 +43,14 @@ class _SimpleTimerState extends State<SimpleTimer> {
 
   @override
   void initState() {
+    print(waitingDur());
     widget.t = Timer(Duration(seconds: waitingDur()), () {
+
+      if (widget.finish.isBefore(DateTime.now())){
+        widget.t.cancel();
+        widget.callback();
+        return 0;
+      }
       widget.t.cancel();
       widget.t = Timer.periodic(Duration(minutes: 1), (t) {
         if (widget.finish.isBefore(DateTime.now())){
@@ -52,6 +59,9 @@ class _SimpleTimerState extends State<SimpleTimer> {
           return 0;
         }
         setState(() {});
+      });
+      setState(() {
+
       });
     });
     super.initState();

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:waap/components/ExitChallengeDialog.dart';
 import 'package:waap/models/Challenge.dart';
 import 'package:waap/pages/home/challenge_detail.dart';
 import 'package:waap/services/db.dart';
@@ -44,7 +45,7 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
 
   waitingDur() {
     var now = DateTime.now();
-    var sec = widget.challenge.expire.second;
+    var sec = widget.challenge.status== Challenge.STARTED ? widget.challenge.expire.second: widget.challenge.voting.second;
     return now.second < sec ? sec - now.second : 60 - now.second + sec;
   }
 
@@ -76,14 +77,17 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
 
   updateDB(t) async{
     await DBHelper().updateChallenge(widget.challenge);
-    t.cancel();
+    t?.cancel();
     widget.update();
   }
 
   initTimer()async{
+
     widget.timer = await Future.delayed(Duration(seconds: waitingDur()),() => Timer.periodic(Duration(minutes: 1), updateStatus));
     try{
       setState(() {
+        updateStatus(widget.timer);
+        print(widget.challenge.status);
       });
     }catch(e){}
   }
@@ -110,6 +114,16 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+
+      onLongPress: ()async{
+
+        var answer = await showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) =>
+                ExitChallengeDialog(widget.challenge, widget.update, ));
+        print(answer);
+      },
       onTap: () {
         Navigator.push(
             context,

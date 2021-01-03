@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:waap/models/Challenge.dart';
@@ -136,11 +136,12 @@ class _ChallengeStartedPageState extends State<ChallengeStartedPage> {
     photos = List(widget.challenge.image_count);
   }
 
+
   @override
   Widget build(BuildContext context) {
 
     t?.cancel();
-    t=Timer(widget.challenge.expire.difference(DateTime.now()),(){Navigator.pop(context);});
+    t=Timer(widget.challenge.expire.difference(DateTime.now()),(){ Navigator.pop(context);});
 
     var W = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.left -
@@ -423,7 +424,6 @@ class _ChallengeStartedPageState extends State<ChallengeStartedPage> {
                                     ),
                                   ],
                                 );
-                                ;
                               }
                               return Container(
                                 alignment: Alignment.center,

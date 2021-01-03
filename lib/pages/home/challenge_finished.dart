@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/components/WaapButton.dart';
@@ -77,6 +76,16 @@ class ChallengeFinishedPage extends StatelessWidget {
     }
 
     return 1;
+  }
+
+
+
+  List names;
+  List properNames(){
+    if(names!=null)
+      return names;
+    names=photos.map((e) => e["photo"].owner).toSet().toList();
+    return names;
   }
 
 
@@ -263,7 +272,7 @@ class ChallengeFinishedPage extends StatelessWidget {
 
                                 return SafeScroll(
                                   child: Column(
-                                    children: challenge.users
+                                    children: properNames()
                                         .map((u) =>
                                         Padding(
                                           padding: const EdgeInsets.only(

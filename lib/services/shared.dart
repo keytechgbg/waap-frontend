@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Shared {
   static final stats = [
-    "highest_rate_on_pic",
-    "games_won",
-    "games_lost",
-    "games_tied",
-    "games_resigned"
+    "highest_rate",
+    "won",
+    "lost",
+    "tied",
+    "resigned"
   ];
 
   static Future<bool> isAuthenticated() async {
@@ -51,6 +51,15 @@ class Shared {
     return res;
   }
 
+  static Future setStats(Map statsMap) async {
+    var prefs = await SharedPreferences.getInstance();
+    for(var k in statsMap.keys){
+      await prefs.setInt(k, statsMap[k]);
+    }
+  }
+
+
+
   static Future<String> getToken() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString("token");
@@ -67,6 +76,7 @@ class Shared {
     var uname = prefs.getString("username");
     return uname;
   }
+
 
   static _setUsername(String username) async {
     var prefs = await SharedPreferences.getInstance();

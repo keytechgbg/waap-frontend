@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       error = "";
     }
+
     setState(() {});
     _formKey.currentState.validate();
   }

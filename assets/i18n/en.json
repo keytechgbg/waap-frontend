@@ -15,11 +15,11 @@
   "players": "Players",
   "challenge": "Challenge",
   "time_left": "Time left",
-  "highest_rate_on_pic": "Highest rate on picture",
-  "games_won": "Games won" ,
-  "games_lost": "Games lost",
-  "games_tied": "Games tied",
-  "games_resigned": "Games resigned",
+  "highest_rate": "Highest rate on picture",
+  "won": "Games won" ,
+  "lost": "Games lost",
+  "tied": "Games tied",
+  "resigned": "Games resigned",
   "statistics": "Statistics",
   "settings": "Settings",
   "log_out": "Log out",
@@ -34,7 +34,8 @@
   "add_friends":"Add friends",
   "yes": "Yes",
   "no": "No",
-  "remove_dialog": "Do you want to remove * from your friendlist?",
+  "remove_friend_dialog": "Do you want to remove * from your friendlist?",
+  "exit_challenge_dialog": "Do you want to exit '*' challenge?",
   "friends": "Friends",
   "date": "Date",
   "friend_requests": " Friend requests",
@@ -49,7 +50,14 @@
   "send_proposal": "Send a WAAP Challenge proposal",
   "report_problem": "Report a problem",
   "voting_ends_in": "Voting ends in : ",
-  "congratulations": "Congratulations!!!"
-
+  "congratulations": "Congratulations!!!",
+  "change_password": "Change password",
+  "old_password" : "Old password",
+  "new_password" : "New password",
+  "change" : "Change",
+  "old_password_field_is_required" : "Old password field is required",
+  "new_password_field_is_required": "New password field is required",
+  "proposal": "Proposal",
+  "problem" : "Problem"
 
 }

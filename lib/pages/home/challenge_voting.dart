@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/components/SimpleTimer.dart';
@@ -15,7 +14,7 @@ import 'package:waap/pages/home/photoview.dart';
 import 'package:waap/services/api.dart';
 import 'package:waap/services/db.dart';
 import 'package:waap/services/shared.dart';
-import 'package:waap/models/Photo.dart';
+
 
 class ChallengeVotingPage extends StatefulWidget {
   ChallengeVotingPage(this.challenge) {}
@@ -92,6 +91,15 @@ class _ChallengeVotingPageState extends State<ChallengeVotingPage> {
 
     updated=true;
     return 1;
+  }
+
+
+  List names;
+  List properNames(){
+    if(names!=null)
+      return names;
+    names=photos.map((e) => e["photo"].owner).toSet().toList();
+    return names;
   }
 
   @override
@@ -233,7 +241,7 @@ class _ChallengeVotingPageState extends State<ChallengeVotingPage> {
                               if (snapshot.hasData) {
                                 return SafeScroll(
                                   child: Column(
-                                    children: widget.challenge.users.where((e) => e!=_username).toList()
+                                    children: properNames().where((e) => e!=_username).toList()
                                         .map((u) => Padding(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: Column(
@@ -330,7 +338,6 @@ class _ChallengeVotingPageState extends State<ChallengeVotingPage> {
                                         .toList(),
                                   ),
                                 );
-                                ;
                               }
                               return Container(
                                 alignment: Alignment.center,

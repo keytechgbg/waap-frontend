@@ -95,12 +95,16 @@ class _MainPageState extends State<MainPage> {
           res = -1;
         else if (a.status < b.status)
           res = 1;
-        else if (a.status == Challenge.STARTED ||
-            a.status == Challenge.FINISHED) {
+        else if (a.status == Challenge.STARTED ) {
           if (a.expire.isBefore(b.expire))
             res = -1;
           else
             res = 1;
+        } else if (a.status == Challenge.FINISHED ) {
+          if (a.expire.isBefore(b.expire))
+            res = 1;
+          else
+            res = -1;
         } else if (a.status == Challenge.VOTING) {
           if (a.voting.isBefore(b.voting))
             res = -1;

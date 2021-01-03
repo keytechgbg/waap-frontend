@@ -21,7 +21,7 @@ class DeleteFriendDialog extends StatelessWidget {
          child: Column(mainAxisSize: MainAxisSize.min,
            children: [
              Text(
-               "remove_dialog".tr().replaceAll("*", "$username"), style: STYLES.text["title"],),
+               "remove_friend_dialog".tr().replaceAll("*", "$username"), style: STYLES.text["title"],),
              SizedBox(height: 40,),
              Row( mainAxisAlignment: MainAxisAlignment.spaceAround,
                children:[

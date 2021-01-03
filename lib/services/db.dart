@@ -151,6 +151,17 @@ class DBHelper {
     return challenges;
   }
 
+  Future<int> deleteChallenge(int id)async{
+    var dbClient = await db;
+
+    return await dbClient.delete(
+      'challenges',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+  }
+
   Future<int> updateChallengesFromList(List list) async {
     list = list.map((e) {
       e["status"] = Challenge.STATUSES[e["status"]];

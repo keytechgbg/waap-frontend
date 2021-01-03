@@ -3,7 +3,7 @@ import 'package:waap/STYLES.dart';
 import 'package:waap/services/api.dart';
 
 class FriendSearchItem extends StatefulWidget {
-  FriendSearchItem({this.requests, this.username});
+  FriendSearchItem({this.requests, this.username}){print(requests);print(username);}
 
 
   List<String> requests;
@@ -25,6 +25,14 @@ class _FriendSearchItemState extends State<FriendSearchItem> {
   @override
   void initState() {
     status = (widget.requests.contains(widget.username)) ? REFUSE : ADD;
+  }
+
+
+  @override
+  void didUpdateWidget(FriendSearchItem oldWidget) {
+    setState(() {
+      status = (widget.requests.contains(widget.username)) ? REFUSE : ADD;
+    });
   }
 
   getIcon() {

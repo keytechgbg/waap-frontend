@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'dart:convert';
 import 'shared.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -219,6 +218,26 @@ class API {
     return data;
   }
 
+  static deleteChallenge(int challenge_id) async {
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio.delete("challenges/",
+          options: Options(headers: {"Authorization": await _getToken()}),
+          data: {"id": challenge_id});
+    } catch (e) {
+      print(e);
+      if (e.response.statusCode == 400) {
+        data = e.response.data;
+      } else
+        data = {"non_field_errors": e};
+      return data;
+    }
+    data = response.data;
+    return data;
+  }
+
   static getPhotos(int challenge_id) async {
     var data;
     var response;
@@ -229,7 +248,7 @@ class API {
           options: Options(headers: {"Authorization": await _getToken()}), queryParameters: {"challenge_id": challenge_id});
     } catch (e) {
       try{
-        print(e);
+
         if (e.response.statusCode == 400) {
           return {"error":e};
         } else
@@ -348,12 +367,110 @@ class API {
     return data;
   }
 
+  static getStats() async {
+    var data;
+    var response;
+    init();
+
+    try {
+      response = await dio.get("statistics/",
+          options: Options(headers: {"Authorization": await _getToken()}));
+    } catch (e) {
+        return null;
+    }
+
+    data = response.data;
+    return data;
+  }
+
+  static changePassword({String old_password, String new_password})async{
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio
+          .post("changepass/", options: Options(headers: {"Authorization": await _getToken()}), data: {"old_password": old_password, "new_password": new_password});
+    } catch (e) {
+      try {
+        print(e);
+        if (e.response.statusCode == 400) {
+          data = e.response.data;
+
+        } else
+          data = {"non_field_errors": e.toString()};
+      } catch (e) {
+        data = {"non_field_errors": "network_connection_error".tr()};
+      }
+      return data;
+    }
+    data = response.data;
+    return data;
+
+  }
+
+
+  static sendProposal(String message)async{
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio
+          .post("proposals/", options: Options(headers: {"Authorization": await _getToken()}), data: {"message":message});
+    } catch (e) {
+      try {
+        if (e.response.statusCode == 400) {
+          data = e.response.data;
+
+        } else
+          data = {"non_field_errors": e.toString()};
+      } catch (e) {
+        data = {"non_field_errors": "network_connection_error".tr()};
+      }
+      return data;
+    }
+    data = response.data;
+    return data;
+
+  }
+
+  static reportProblem(String message)async{
+    var data;
+    var response;
+    init();
+    try {
+      response = await dio
+          .post("problems/", options: Options(headers: {"Authorization": await _getToken()}), data: {"message":message});
+    } catch (e) {
+      try {
+        if (e.response.statusCode == 400) {
+          data = e.response.data;
+
+        } else
+          data = {"non_field_errors": e.toString()};
+      } catch (e) {
+        data = {"non_field_errors": "network_connection_error".tr()};
+      }
+      return data;
+    }
+    data = response.data;
+    return data;
+
+  }
+
   static downloadPhoto(int challenge_id, String url) async{
 
     String path = photoDir+challenge_id.toString()+"/"+ url.split("/").last;
-
-    await Dio().download(url,  path, onReceiveProgress: (received,total){int percentage = ((received / total) * 100).floor(); print(percentage);});
-
+    try{
+      await Dio().download(url, path, onReceiveProgress: (received, total) {
+        int percentage = ((received / total) * 100).floor();
+        print(percentage);
+      });
+    }catch(e){
+      try{
+        File file= File(path);
+        await file.delete();
+      }catch(e){print(e);}
+    }
     return await getDownloadedPhoto(challenge_id, url);
 
   }

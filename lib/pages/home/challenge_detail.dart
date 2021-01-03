@@ -8,7 +8,7 @@ import 'package:waap/pages/home/challenge_voting.dart';
 
 class ChallengeDetailPage extends StatelessWidget {
 
-  ChallengeDetailPage(this.challenge) {}
+  ChallengeDetailPage(this.challenge) { print(challenge.status);}
 
   Challenge challenge;
   @override

@@ -9,11 +9,12 @@ import 'package:waap/STYLES.dart';
 import 'package:waap/components/SafeScroll.dart';
 import 'package:waap/components/WaapButton.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:waap/pages/home/send_message.dart';
 import 'package:waap/pages/home/show_pdf.dart';
+import 'package:waap/pages/home/username_password.dart';
 import 'package:waap/services/api.dart';
 import 'package:waap/services/shared.dart';
 import 'package:waap/services/db.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SettingsPage extends StatelessWidget {
   final double borderSize = 2;
@@ -110,15 +111,11 @@ class SettingsPage extends StatelessWidget {
                                     child: GestureDetector(
                                       child: Icon(Icons.arrow_forward),
                                       onTap: () async {
-                                        //TODO dopil
-                                        var f = await fromAsset(
-                                            "assets/pdf/privacy_policy.pdf",
-                                            "privacy_policy.pdf");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ShowPdfPage(f.path)));
+                                                    UsernamePasswordPage()));
                                       },
                                     ),
                                   )
@@ -170,15 +167,11 @@ class SettingsPage extends StatelessWidget {
                                     child: GestureDetector(
                                       child: Icon(Icons.arrow_forward),
                                       onTap: () async {
-                                        //TODO dopil
-                                        var f = await fromAsset(
-                                            "assets/pdf/privacy_policy.pdf",
-                                            "privacy_policy.pdf");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ShowPdfPage(f.path)));
+                                                   SendMessagePage(SendMessagePage.PROPOSAL)));
                                       },
                                     ),
                                   )
@@ -205,10 +198,9 @@ class SettingsPage extends StatelessWidget {
                                     child: GestureDetector(
                                       child: Icon(Icons.info_outline),
                                       onTap: () async {
-                                        //TODO dopil
                                         var f = await fromAsset(
-                                            "assets/pdf/privacy_policy.pdf",
-                                            "privacy_policy.pdf");
+                                            "assets/pdf/game_info.pdf",
+                                            "game_info.pdf");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -265,14 +257,11 @@ class SettingsPage extends StatelessWidget {
                                     child: GestureDetector(
                                       child: Icon(Icons.arrow_forward),
                                       onTap: () async {
-                                        var f = await fromAsset(
-                                            "assets/pdf/terms_of_use.pdf",
-                                            "terms_of_use.pdf");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ShowPdfPage(f.path)));
+                                                    SendMessagePage(SendMessagePage.PROBLEM)));
                                       },
                                     ),
                                   )
