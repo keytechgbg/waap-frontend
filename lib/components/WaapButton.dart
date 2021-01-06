@@ -25,13 +25,19 @@ class WaapButton extends StatelessWidget {
     2: BorderRadius.all(Radius.circular(1000)),
   };
 
+
+  static double hpadding= 25;
+
+  static double gethp(context){hpadding??=MediaQuery.of(context).size.width>400 ? 25 : 20; return hpadding; }
+
+
   @override
   Widget build(BuildContext context) {
     return Container( padding: _TYPE[type],
       decoration: BoxDecoration(color: STYLES.palette["border"],
            borderRadius: _TYPE2[type]),
       child : GestureDetector(
-        child: Container( padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: Container( padding: EdgeInsets.symmetric(horizontal: gethp(context), vertical: 10),
           decoration: BoxDecoration(color: STYLES.palette["primary"],
               borderRadius: _TYPE2[type]),
           child: child,

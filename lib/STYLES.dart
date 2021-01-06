@@ -67,6 +67,7 @@ class STYLES {
     "accent": Color(0xFFFFFFFF),
     "textColor": Color(0xFFFFFFFF),
     "error": Colors.red,
-    "border": Color(0xFFFFFFFF)
+    "border": Color(0xFFFFFFFF),
+    "voting": Color(0xFFB299E5)
   };
 }

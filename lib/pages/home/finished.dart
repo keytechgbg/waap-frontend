@@ -127,6 +127,7 @@ class FinishedPage extends StatelessWidget {
                                             child: Text(
                                               _.theme,
                                               style: STYLES.text["base"],
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ),

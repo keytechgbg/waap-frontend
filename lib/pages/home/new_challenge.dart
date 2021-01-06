@@ -110,38 +110,42 @@ class _NewChallengePageState extends State<NewChallengePage> {
                                   vertical: 10, horizontal: 10),
                               // line size
                               color: STYLES.palette["primary"],
-                              child: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: players
-                                        .map((e) => Container(
-                                              padding: EdgeInsets.all(3),
-                                              margin: EdgeInsets.all(2),
-                                              color: STYLES.palette["accent"],
-                                              child: Text(
-                                                e,
-                                                style: STYLES
-                                                    .text["optionTitle"]
-                                                    .copyWith(
-                                                        color: Colors.black),
-                                              ),
-                                            ))
-                                        .toList() +
-                                    [
-                                      Container(
-                                          margin: EdgeInsets.all(2),
-                                          child: GestureDetector(
-                                            child: Icon(Icons.person_add),
-                                            onTap: () async {
-                                              players = await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FriendsPage(
-                                                              players)));
-                                              setState(() {});
-                                            },
-                                          ))
-                                    ],
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      children: players
+                                              .map((e) => Container(
+                                                    padding: EdgeInsets.all(3),
+                                                    margin: EdgeInsets.all(2),
+                                                    color: STYLES.palette["accent"],
+                                                    child: Text(
+                                                      e,
+                                                      style: STYLES
+                                                          .text["optionTitle"]
+                                                          .copyWith(
+                                                              color: Colors.black),
+                                                    ),
+                                                  ))
+                                              .toList() ,
+                                    ),
+                                  ),Container(
+                                      margin: EdgeInsets.all(2),
+                                      child: GestureDetector(
+                                        child: Icon(Icons.person_add),
+                                        onTap: () async {
+                                          players = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FriendsPage(
+                                                          players)));
+                                          setState(() {});
+                                        },
+                                      ))
+                                ],
                               )),
                         ),
                         SizedBox(

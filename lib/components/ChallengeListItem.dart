@@ -134,7 +134,7 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
         margin: EdgeInsets.only(top: borderSize),
         padding: EdgeInsets.symmetric(vertical: 20),
         // line size
-        color: STYLES.palette["primary"],
+        color: widget.challenge.status == Challenge.STARTED ? STYLES.palette["primary"] : STYLES.palette["voting"],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -155,6 +155,7 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
                   child: Text(
                     widget.challenge.theme,
                     style: STYLES.text["base"],
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
