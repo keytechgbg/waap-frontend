@@ -83,11 +83,10 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
 
   initTimer()async{
 
-    widget.timer = await Future.delayed(Duration(seconds: waitingDur()),() => Timer.periodic(Duration(minutes: 1), updateStatus));
+    widget.timer = await Future.delayed(Duration(seconds: waitingDur()),() {updateStatus(null); return Timer.periodic(Duration(minutes: 1), updateStatus);});
     try{
       setState(() {
         updateStatus(widget.timer);
-        print(widget.challenge.status);
       });
     }catch(e){}
   }

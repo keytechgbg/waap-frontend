@@ -116,10 +116,10 @@ class NotificationService {
               ? "voting_started".tr()
               : "voting_finished".tr());
     }
-    var p = await getNotifications();
-    print(p
-        .map((e) => e.id.toString() + e.title + e.payload)
-        .toList());
+    // var p = await getNotifications();
+    // print(p
+    //     .map((e) => e.id.toString() + e.title + e.payload)
+    //     .toList());
   }
 
   static clear() async {
