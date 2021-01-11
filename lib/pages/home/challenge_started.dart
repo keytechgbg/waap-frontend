@@ -15,7 +15,7 @@ import 'package:waap/services/db.dart';
 import 'package:waap/services/shared.dart';
 
 class ChallengeStartedPage extends StatefulWidget {
-  ChallengeStartedPage(this.challenge) {}
+  ChallengeStartedPage(this.challenge);
 
   Challenge challenge;
 

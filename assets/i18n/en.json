@@ -58,6 +58,8 @@
   "old_password_field_is_required" : "Old password field is required",
   "new_password_field_is_required": "New password field is required",
   "proposal": "Proposal",
-  "problem" : "Problem"
-
+  "problem" : "Problem",
+  "voting_started": "Voting phase started!",
+  "voting_finished": "Voting phase is over!",
+  "message_cant_be_blank": "Message can`t be blank"
 }

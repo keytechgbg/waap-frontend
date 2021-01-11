@@ -35,13 +35,14 @@ class DBHelper {
   }
 
   _onCreate(Database db, int version) async {
-    await db
-      ..execute(
-          'CREATE TABLE friends (id INTEGER PRIMARY KEY, username TEXT UNIQUE, status INTEGER, from_user INTEGER)')
-      ..execute(
-          'CREATE TABLE challenges (id INTEGER PRIMARY KEY, users TEXT, status INTEGER,  image_count INTEGER, expire INTEGER, voting INTEGER, theme TEXT, reward TEXT, winners TEXT)')
-      ..execute(
+    await db.execute(
+          'CREATE TABLE friends (id INTEGER PRIMARY KEY, username TEXT UNIQUE, status INTEGER, from_user INTEGER)');
+    await db.execute(
+          'CREATE TABLE challenges (id INTEGER PRIMARY KEY, users TEXT, status INTEGER,  image_count INTEGER, expire INTEGER, voting INTEGER, theme TEXT, reward TEXT, winners TEXT)');
+    await db.execute(
           'CREATE TABLE photos (id INTEGER PRIMARY KEY,  url TEXT, owner TEXT, likes INTEGER DEFAULT 0,  liked INTEGER DEFAULT 0, challenge_id INTEGER)');
+    await db.execute(
+          'CREATE TABLE proposals (id INTEGER PRIMARY KEY, theme TEXT)');
 
   }
 
@@ -278,6 +279,54 @@ class DBHelper {
     }
 
     return 1;
+  }
+
+  Future<int> updateProposalsFromList(List list) async {
+
+    var dbClient = await db;
+    List<Map> maps = await dbClient
+        .query('proposals', columns: ['id' , 'theme']);
+
+    for (var i in maps) {
+      if (!list.contains(i["theme"])) {
+        await dbClient.delete(
+          'proposals',
+          where: 'theme = ?',
+          whereArgs: [i["theme"]],
+        );
+        maps.remove(i);
+      }
+    }
+
+    check(String item) {
+      for (var i in maps) {
+        if (i["theme"] == item) {
+          return i;
+        }
+      }
+      return null;
+    }
+
+    for (var t in list) {
+      var c = check(t);
+      if (c == null)
+        dbClient.insert("proposals", {"theme": t});
+    }
+
+    return 1;
+  }
+
+  Future<List<String>> getProposals() async {
+    var dbClient = await db;
+    List<Map> maps = await dbClient
+        .query('proposals', columns: ['id' , 'theme'],);
+    List<String> proposals = [];
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        proposals.add(maps[i]["theme"]);
+      }
+    }
+    return proposals;
   }
 
   Future clear() async{

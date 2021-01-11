@@ -34,7 +34,7 @@ class ChallengeListItem extends StatefulWidget {
   Challenge challenge;
   Timer timer;
 
-  ChallengeListItem(this.challenge, this.update) {}
+  ChallengeListItem(this.challenge, this.update);
 
   @override
   _ChallengeListItemState createState() => _ChallengeListItemState();
@@ -132,7 +132,7 @@ class _ChallengeListItemState extends State<ChallengeListItem> {
       },
       child: Container(
         margin: EdgeInsets.only(top: borderSize),
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: STYLES.usualpadding*2),
         // line size
         color: widget.challenge.status == Challenge.STARTED ? STYLES.palette["primary"] : STYLES.palette["voting"],
         child: Row(

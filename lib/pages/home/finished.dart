@@ -104,7 +104,7 @@ class FinishedPage extends StatelessWidget {
                                     child: Container(
                                 margin: EdgeInsets.only(top: borderSize),
                                 padding: EdgeInsets.symmetric(
-                                      vertical: 20), // line size
+                                      vertical:  STYLES.usualpadding*2), // line size
                                 color: STYLES.palette["primary"],
                                 child: Row(
                                     mainAxisAlignment:

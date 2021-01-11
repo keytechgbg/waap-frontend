@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 class API {
   static String _token;
-  static const String _baseURL = "http://192.168.31.29:8080/api/";
+  static const String _baseURL = "https://waap-test.herokuapp.com/api/";
   static var dio;
   static String photoDir;
 
@@ -431,6 +431,22 @@ class API {
     data = response.data;
     return data;
 
+  }
+
+  static getProposals() async {
+    var data;
+    var response;
+    init();
+
+    try {
+      response = await dio.get("proposals/",
+          options: Options(headers: {"Authorization": await _getToken()}));
+    } catch (e) {
+      return null;
+    }
+
+    data = response.data;
+    return data;
   }
 
   static reportProblem(String message)async{

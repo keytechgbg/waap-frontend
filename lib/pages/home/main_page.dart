@@ -15,6 +15,7 @@ import 'package:waap/pages/home/settings.dart';
 import 'package:waap/pages/home/statistics.dart';
 import 'package:waap/services/api.dart';
 import 'package:waap/services/db.dart';
+import 'package:waap/services/notifications.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -136,6 +137,8 @@ class _MainPageState extends State<MainPage> {
         "m";
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,7 +216,9 @@ class _MainPageState extends State<MainPage> {
                       future: updateChallengesAndFriends(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          print(snapshot.data);
+                          NotificationService.sheduledFromList(challenges.where((e) =>
+                          e.status != Challenge.FINISHED).take(5).toList());
+
                           return Container(
                             child: Column(
                               children: [

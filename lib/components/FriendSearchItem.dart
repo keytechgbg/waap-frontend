@@ -78,7 +78,7 @@ class _FriendSearchItemState extends State<FriendSearchItem> {
           color: Colors.white,
           border:
               Border.all(color: STYLES.palette["primary"], width: borderWidth)),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical:  STYLES.usualpadding, horizontal:  STYLES.usualpadding*2),
       child: Row(
         children: [
           getIcon(),

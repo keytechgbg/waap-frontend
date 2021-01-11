@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waap/STYLES.dart';
 import 'package:waap/services/shared.dart';
 import 'package:waap/pages/authentication/authenticator.dart';
 import 'package:waap/pages/home/main_page.dart';
@@ -6,8 +7,10 @@ import 'package:waap/pages/errorpage.dart';
 import 'package:waap/pages/loading.dart';
 
 class Wrapper extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       initialData: false,
       future: Shared.isAuthenticated(),
@@ -19,8 +22,10 @@ class Wrapper extends StatelessWidget {
           page = ErrorPage();
         else
           page = LoadingPage();
+
+        STYLES.width =MediaQuery.of(context).size.width;
         return
-          page;
+        Theme(data: STYLES.main_theme, child: page);
       },
     );
 

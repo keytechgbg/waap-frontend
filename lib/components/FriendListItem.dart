@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waap/STYLES.dart';
 import 'package:waap/components/DeleteFriendDialog.dart';
-import 'package:waap/services/api.dart';
 
 class FriendListItem extends StatefulWidget {
   FriendListItem({this.friends, this.username, this.callback});
@@ -65,7 +64,7 @@ class _FriendListItemState extends State<FriendListItem> {
           color: Colors.white,
           border:
               Border.all(color: STYLES.palette["primary"], width: borderWidth)),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: STYLES.usualpadding, horizontal: STYLES.usualpadding*2),
       child: Row(
         children: [
           getIcon(),

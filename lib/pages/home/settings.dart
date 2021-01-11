@@ -15,6 +15,7 @@ import 'package:waap/pages/home/username_password.dart';
 import 'package:waap/services/api.dart';
 import 'package:waap/services/shared.dart';
 import 'package:waap/services/db.dart';
+import 'package:waap/services/notifications.dart';
 
 class SettingsPage extends StatelessWidget {
   final double borderSize = 2;
@@ -353,6 +354,7 @@ class SettingsPage extends StatelessWidget {
                       Shared.logOut();
                       DBHelper().clear();
                       API.close();
+                      NotificationService.clear();
                       Navigator.pushNamedAndRemoveUntil(
                           context, "/", (route) => false);
                     },
