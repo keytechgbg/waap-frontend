@@ -28,7 +28,7 @@ class API {
           baseUrl: _baseURL,
         ));
 
-    photoDir= (await getApplicationDocumentsDirectory()).path+"/photos/";
+    photoDir=photoDir ?? (await getApplicationDocumentsDirectory()).path+"/photos/";
   }
 
   static login({@required String username, @required String password}) async {

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart'
 import 'package:waap/models/Challenge.dart';
 import 'package:waap/models/Friend.dart';
 import 'package:waap/models/Photo.dart';
+import 'package:path/path.dart' as p;
 
 class DBHelper {
   static Database _db;
@@ -28,7 +29,7 @@ class DBHelper {
 
   initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = documentDirectory.path + 'waap.db';
+    String path = p.join(documentDirectory.toString() , 'waap.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     await getDir();
     return db;
